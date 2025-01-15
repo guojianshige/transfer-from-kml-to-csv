@@ -1,13 +1,3 @@
-# transfer-from-kml-to-csv
-# python3
-# -- coding: utf-8 --
-# -------------------------------
-# @Author : 郭健
-# -------------------------------
-# @File : kmltransfer.py
-# @Software : PyCharm
-# @Time : 2025/1/7 17:49
-# -------------------------------
 import xml.etree.ElementTree as ET
 import csv
 
@@ -66,11 +56,11 @@ def extract_kml_data(kml_file):
     return data
 
 def write_to_csv(data, csv_file):
-    # 获取 CSV 文件的字段名称
-    if len(data) > 0:
-        fieldnames = data[0].keys()
-    else:
-        fieldnames = []
+    # 获取所有字段名称，确保 CSV 包含所有可能的字段
+    fieldnames = set()
+    for row in data:
+        fieldnames.update(row.keys())
+    fieldnames = list(fieldnames)
 
     # 写入 CSV 文件
     with open(csv_file, 'w', newline='', encoding='utf-8') as csvfile:
@@ -79,8 +69,8 @@ def write_to_csv(data, csv_file):
         writer.writerows(data)  # 写入数据行
 
 # 输入和输出文件路径
-kml_file = r'C:\Users\miao\Desktop\质检量井.kml'  # 替换为你的 KML 文件路径
-csv_file = r'D:\工作\output.csv'  # 替换为输出的 CSV 文件路径
+kml_file = r'C:\Users\miao\Desktop\下药.kml'  # 替换为你的 KML 文件路径
+csv_file = r'D:\工作\下药.csv'  # 替换为输出的 CSV 文件路径
 
 # 提取 KML 数据
 data = extract_kml_data(kml_file)
@@ -89,8 +79,3 @@ data = extract_kml_data(kml_file)
 write_to_csv(data, csv_file)
 
 print(f"数据已成功保存至 {csv_file}")
-
-
-
-
-
